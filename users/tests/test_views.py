@@ -42,3 +42,16 @@ class RegisterViewTest(TestCase):
             'password2': 'testpassword1234'
         })
         self.assertRedirects(response, reverse('users:login'))
+
+
+class ProfileViewTest(TestCase):
+
+    def test_uses_profile_template(self):
+        response = self.client.get(reverse('users:profile'))
+        self.assertTemplateUsed(response, 'users/profile.html')
+
+    def test_contains_authenticated_users_username(self):
+        user = User.objects.create(username='test_user_name')
+        self.client.force_login(user)
+        response = self.client.get(reverse('users:profile'))
+        self.assertContains(response, 'test_user_name')
