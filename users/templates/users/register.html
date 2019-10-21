@@ -13,4 +13,10 @@
         <button class="btn btn-info" type="submit">Register</button>
       </div>
   </form>
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      Already Have an Account?
+      <a class="ml-2" href="{% url 'users:login' %}">Log In</a>
+    </small>
+  </div>
 {% endblock content %}
