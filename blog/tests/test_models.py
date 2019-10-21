@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
+from django.urls import reverse
 
 from blog.models import Post
 
@@ -56,3 +57,13 @@ class PostModelTest(TestCase):
                 2019, 10, 10, 16, 30, 58, tzinfo=pytz.UTC
         ))
         self.assertEqual(list(Post.objects.all()), [post3, post2, post1])
+
+    def test_get_absolute_url_returns_detail_url(self):
+        user = User.objects.create(username='test_user')
+        post = Post.objects.create(
+            title='post title', content='post content', author=user
+        )
+        self.assertEqual(
+            post.get_absolute_url(),
+            reverse('blog:detail', args=[post.pk])
+        )
