@@ -3,6 +3,7 @@
 {% block content %}
   {% for post in posts %}
     <article class="media">
+      <img src="{{ post.author.profile.image.url }}" class="rounded-circle article-img" />
       <div class="media-body">
         <h5 class="mt-0"><a href="{% url 'blog:detail' post.pk %}">{{ post.title }}</a></h5>
         <small>posted by {{ post.author.username }} on {{ post.pub_date|date:'Y-m-d H:i' }}</small>
