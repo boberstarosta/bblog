@@ -2,6 +2,12 @@
 
 {% block content %}
   {% for post in posts %}
+    <div class="media">
+      <div class="media-body">
+        <h5 class="mt-0">{{ post.title }}</h5>
+        {{ post.content }}
+      </div>
+    </div>
   {% empty %}
     <small class="text-muted">No posts to display</small>
   {% endfor %}
