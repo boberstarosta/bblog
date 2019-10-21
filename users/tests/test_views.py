@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from users.forms import RegistrationForm
+from users.forms import RegistrationForm, UserUpdateForm, ProfileUpdateForm
 
 User = get_user_model()
 
@@ -46,7 +46,15 @@ class RegisterViewTest(TestCase):
 
 class ProfileViewTest(TestCase):
 
+    def test_redirects_to_login_if_not_authenticated(self):
+        response = self.client.get(reverse('users:profile'))
+        expected_url = reverse('users:login') + '?next=' \
+                     + reverse('users:profile')
+        self.assertRedirects(response, expected_url)
+
     def test_uses_profile_template(self):
+        user = User.objects.create(username='test_user_name')
+        self.client.force_login(user)
         response = self.client.get(reverse('users:profile'))
         self.assertTemplateUsed(response, 'users/profile.html')
 
@@ -55,3 +63,14 @@ class ProfileViewTest(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse('users:profile'))
         self.assertContains(response, 'test_user_name')
+
+    def test_passes_user_and_profile_forms_in_context(self):
+        user = User.objects.create(username='test_user_name')
+        self.client.force_login(user)
+        response = self.client.get(reverse('users:profile'))
+        self.assertIsInstance(response.context['u_form'], UserUpdateForm)
+        self.assertIsInstance(response.context['p_form'], ProfileUpdateForm)
+
+    def test_updates_user_data_on_POST_if_form_valid(self):
+        # TODO: Get form to validate with fake image.
+        pass
