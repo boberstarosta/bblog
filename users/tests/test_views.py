@@ -34,3 +34,11 @@ class RegisterViewTest(TestCase):
             'password2': 'testpassword1234'
         })
         self.assertEqual(User.objects.first().username, 'test_user')
+
+    def test_redirects_to_login_page_if_input_valid(self):
+        response = self.client.post(reverse('users:register'), data={
+            'username': 'test_user',
+            'password1': 'testpassword1234',
+            'password2': 'testpassword1234'
+        })
+        self.assertRedirects(response, reverse('users:login'))
