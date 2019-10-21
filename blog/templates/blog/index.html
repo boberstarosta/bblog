@@ -1,0 +1,8 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  {% for post in posts %}
+  {% empty %}
+    <small class="text-muted">No posts to display</small>
+  {% endfor %}
+{% endblock content %}

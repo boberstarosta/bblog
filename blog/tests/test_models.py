@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -41,14 +42,17 @@ class PostModelTest(TestCase):
         user = User.objects.create(username='test_user')
         post2 = Post.objects.create(
             title='second', content='content', author=user,
-            pub_date=datetime.datetime(2019, 10, 10, 16, 30, 59)
-        )
+            pub_date=datetime.datetime(
+                2019, 10, 10, 16, 30, 59, tzinfo=pytz.UTC
+        ))
         post3 = Post.objects.create(
             title='third', content='content', author=user,
-            pub_date=datetime.datetime(2019, 10, 10, 16, 31, 0)
-        )
+            pub_date=datetime.datetime(
+                2019, 10, 10, 16, 31, 0, tzinfo=pytz.UTC
+        ))
         post1 = Post.objects.create(
             title='first', content='content', author=user,
-            pub_date=datetime.datetime(2019, 10, 10, 16, 30, 58)
-        )
+            pub_date=datetime.datetime(
+                2019, 10, 10, 16, 30, 58, tzinfo=pytz.UTC
+        ))
         self.assertEqual(list(Post.objects.all()), [post3, post2, post1])
