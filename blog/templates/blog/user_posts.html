@@ -1,12 +1,13 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+  <h1>Posts by {{ view.kwargs.username }} ({{ posts.count }})</h1>
   {% for post in posts %}
     <article class="media">
       <img src="{{ post.author.profile.image.url }}" class="rounded-circle article-img" />
       <div class="media-body">
         <h5 class="mt-0"><a href="{% url 'blog:detail' post.pk %}">{{ post.title }}</a></h5>
-        <small>posted by <a href="{% url 'blog:user-posts' post.author.username %}">{{ post.author.username }}</a>
+        <small>posted by <a href="#">{{ post.author.username }}</a>
         on {{ post.pub_date|date:'Y-m-d H:i' }}</small>
         <p>{{ post.content }}</p>
       </div>
