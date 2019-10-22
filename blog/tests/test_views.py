@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from blog.forms import CreatePostForm
 from blog.models import Post
 
 User = get_user_model()
@@ -64,15 +63,6 @@ class CreatePostViewTest(TestCase):
     def setUp(self):
         user = User.objects.create(username='test_user')
         self.client.force_login(user)
-
-    def test_uses_post_form_template(self):
-        response = self.client.get(reverse('blog:create_post'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'blog/post_form.html')
-
-    def test_passes_post_form_in_context(self):
-        response = self.client.get(reverse('blog:create_post'))
-        self.assertIsInstance(response.context['form'], CreatePostForm)
 
     def test_renders_form_again_if_input_not_valid(self):
         response = self.client.post(reverse('blog:create_post'), data={

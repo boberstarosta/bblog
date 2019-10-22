@@ -14,6 +14,5 @@ class UserSignalsTest(TestCase):
 
     def test_profile_saved_when_user_saved(self):
         user = User.objects.create(username='test_user')
-        user.profile.image = 'test.jpg'
         user.save()
-        self.assertEqual(Profile.objects.first().image, 'test.jpg')
+        self.assertEqual(Profile.objects.first().image, 'default.jpg')

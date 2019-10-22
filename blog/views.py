@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
-from .forms import CreatePostForm
 from .models import Post
 
 
@@ -15,13 +14,11 @@ class IndexView(generic.ListView):
 class PostDetailView(generic.DetailView):
     model = Post
     context_object_name = 'post'
-    template_name = 'blog/post_detail.html'
 
 
 class CreatePostView(LoginRequiredMixin, generic.CreateView):
     model = Post
-    template_name = 'blog/post_form.html'
-    form_class = CreatePostForm
+    fields = ['title', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
