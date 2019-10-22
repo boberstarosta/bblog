@@ -40,3 +40,16 @@ class PostUpdateView(
         Make sure only author can update the post."""
         post = self.get_object()
         return self.request.user == post.author
+
+
+class PostDeleteView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
+):
+    model = Post
+    success_url = '/'
+
+    def test_func(self):
+        """Called by UserPassesTestMixin.
+        Make sure only author can delete the post."""
+        post = self.get_object()
+        return self.request.user == post.author
