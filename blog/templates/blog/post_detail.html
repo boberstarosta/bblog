@@ -6,4 +6,10 @@
     <small>posted by {{ post.author.username }} on {{ post.pub_date|date:'Y-m-d H:i' }}</small>
     <p>{{ post.content }}</p>
   </article>
+  {% if post.author == user %}
+    <div>
+      <a class="btn btn-outline-info" href="{% url 'blog:update' post.id %}">Update</a>
+      <a class="btn btn-outline-danger" href="{% url 'blog:delete' post.id %}">Delete</a>
+    </div>
+  {% endif %}
 {% endblock content %}
